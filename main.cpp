@@ -1,7 +1,8 @@
 #include "MainApplication.hpp"
 #include "ObjLoader.hpp"
 
-int main() {
-  MainApplication app;
-  return app.initApp();
+int main()
+{
+	MainApplication app;
+	return app.initApp();
 }

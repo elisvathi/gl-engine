@@ -11,72 +11,87 @@ using namespace glm;
 
 static double lastTime = glfwGetTime();
 class Camera {
-public:
-  float fov = 45.0f;
+    public:
+	float fov = 45.0f;
 
-  float near = 0.1f;
-  float far = 100.0f;
+	float near = 0.1f;
+	float far = 100.0f;
 
-  int *width = nullptr;
-  int *height = nullptr;
+	int *width = nullptr;
+	int *height = nullptr;
 
-  float time = 0.0f;
-  float radius = 5.0f;
-  float posHeight = 0.5f;
-  vec3 lookat;
-  vec3 up;
+	float time = 0.0f;
+	float radius = 5.0f;
+	float posHeight = 0.5f;
+	vec3 lookat;
+	vec3 up;
 
-  GLFWwindow  * window;
+	GLFWwindow *window;
 
-  Camera(int* w, int* h, GLFWwindow *win): width(w), height(h), window(win) {
-    build();
-  }
+	Camera(int *w, int *h, GLFWwindow *win)
+		: width(w), height(h), window(win)
+	{
+		build();
+	}
 
-  ~Camera(){
+	~Camera()
+	{
+	}
 
-  }
+	mat4 getPerspectiveMatrix()
+	{
+		return perspective(radians(getFov()), getAspectRatio(), near,
+				   far);
+	}
 
-  mat4 getPerspectiveMatrix() {
-    return perspective(radians(getFov()), getAspectRatio(), near, far);
-  }
+	mat4 getLookAt()
+	{
+		return lookAt(getPosition(), lookat, up);
+	}
 
-  mat4 getLookAt() {
-    return lookAt(getPosition(), lookat, up);
-  }
+	mat4 getVpMatrix()
+	{
+		return getPerspectiveMatrix() * getLookAt();
+	}
 
-  mat4 getVpMatrix(){
-    return getPerspectiveMatrix() * getLookAt();
-  }
+	void updateFrame()
+	{
+		double x, y;
+		glfwGetCursorPos(window, &x, &y);
+		time = map(x, 0, *width, 0, 3.14 * 2);
+		posHeight = map(y, 0, *height, -10, 10);
+	}
 
-  void updateFrame() {
-    double x, y;
-    glfwGetCursorPos(window, &x, &y);
-    time = map(x, 0, *width, 0, 3.14 * 2);
-    posHeight = map(y, 0, *height, -10, 10);
-  }
+    private:
+	vec3 getDirection()
+	{
+		return normalize(lookat - getPosition());
+	}
 
-private:
+	vec3 right()
+	{
+		return normalize(getDirection() * up);
+	}
 
-  vec3 getDirection(){
-    return normalize(lookat - getPosition());
-  }
+	void build()
+	{
+		lookat = vec3(0, 0, 0);
+		up = vec3(0, 1, 0);
+	}
 
-  vec3 right(){
-    return normalize(getDirection() * up);
-  }
+	vec3 getPosition()
+	{
+		return vec3(radius * cos(time), float(posHeight),
+			    radius *sin(time));
+	}
 
-  void build(){
-    lookat = vec3(0,0,0);
-    up = vec3(0,1,0);
-  }
+	float getFov()
+	{
+		return fov;
+	}
 
-  vec3 getPosition(){
-    return vec3(radius * cos(time), float(posHeight),radius * sin(time));
-  }
-
-  float getFov(){
-    return fov;
-  }
-
-  float getAspectRatio() { return (float)*width / (float)*height; }
+	float getAspectRatio()
+	{
+		return (float)*width / (float)*height;
+	}
 };

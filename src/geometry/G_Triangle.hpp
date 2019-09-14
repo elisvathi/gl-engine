@@ -5,6 +5,9 @@ using namespace glm;
 class G_Triangle {
 public:
   vec3 indices;
+  vec2 first_uv = vec2(0,0);
+  vec2 second_uv = vec2(0,1);
+  vec2 third_uv = vec2(1,1);
   G_Triangle(int first, int second, int third):indices(vec3(first,second, third)){
 
   }

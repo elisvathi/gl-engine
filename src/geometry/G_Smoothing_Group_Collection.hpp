@@ -3,7 +3,7 @@
 #include "G_Triangle.hpp"
 #include "G_Smoothing_Group.hpp"
 using namespace std;
-class G_Smoothing_Group_Collection{
-public:
-  vector<G_Smoothing_Group> groups;
+class G_Smoothing_Group_Collection {
+    public:
+	vector<G_Smoothing_Group> groups;
 };

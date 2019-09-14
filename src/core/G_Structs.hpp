@@ -1,12 +1,13 @@
 #pragma once
 #include <glm/glm.hpp>
+
 using namespace glm;
 
-class G_Vertex {
-public:
+struct VectorData {
   vec3 position;
-
-  G_Vertex(vec3 p):position(p){}
-
+  vec3 color;
+  vec3 normal;
+  vec2 uv;
 };
+
 

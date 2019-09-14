@@ -1,19 +1,21 @@
 #pragma once
-#include "Shaders.hpp"
-#include "Utils.hpp"
 #include <GL/glew.h>
+#include "src/core/G_Scene.hpp"
+#include "src/core/G_Shader.hpp"
+#include "src/core/G_Camera.hpp"
+#include "src/core/G_Light.hpp"
+#include "src/core/G_Camera_Rig.hpp"
+#include "src/geometry/G_Mesh.hpp"
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
-#include "View.hpp"
-#include "SceneObject.hpp"
-#include "Scene.hpp"
 class MainApplication {
     public:
-	Scene *scene;
-	int width = 200;
-	int height = 200;
+	G_Scene *scene;
+	int width = 1024;
+	int height = 768;
+  G_Camera_Rig *rig;
 
 	bool initGlew()
 	{
@@ -74,8 +76,22 @@ class MainApplication {
 
 	void buildScene(GLFWwindow *win)
 	{
-		Camera *cam = new Camera(&width, &height, win);
-		scene = new Scene(cam);
+		G_Camera *cam = new G_Camera(width, height);
+    G_Light *light = new G_Light(vec3(2, 0, 2), vec3(-2, 0, -1), vec3(1, 0.45,0));
+    // cam->position = vec3(0,0,-5);
+    // cam->look = vec3(0,0,0);
+    rig = new G_Orbit_Camera(cam);
+		scene = new G_Scene(cam, light);
+    auto blueShader = new G_ColorShader(vec3(1,1,1));
+    // auto blueShader = new G_TextureShader(string("textures/uvtemplate.tga").c_str());
+    // auto redShader = new G_TextureShader(string("textures/uvtemplate.tga").c_str());
+    // auto box = new G_Box_Mesh(vec3(0,0,0), 2.0f, 0.5f, 2.0f);
+    auto box2 = new G_ObjMesh(string("objects/monkey.obj").c_str());
+    // auto obj = new G_Object(blueShader, box);
+    auto obj2 = new G_Object(blueShader, box2);
+    // obj2->setPosition(vec3(-0.5,1,-0.5));
+    // scene->add_object(obj);
+    scene->add_object(obj2);
 		scene->build();
 	}
 
@@ -97,8 +113,8 @@ class MainApplication {
 	void loopCycle(GLFWwindow *window)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    rig->update_frame(window);
 		scene->draw();
-		scene->camera->updateFrame();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

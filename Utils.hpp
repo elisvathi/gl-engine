@@ -1,8 +1,6 @@
 #pragma once
 #include <GL/glew.h>
 #include <vector>
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 using namespace std;
 
 
@@ -20,7 +18,7 @@ void createArrayBuffer(GLuint &bufferId, vector<T> data){
 
 void modifyTexture(GLuint &textureId, const char* path) {
   int width, height, nn;
-  unsigned char *textureData = stbi_load(path, &width, &height, &nn, 0);
+  unsigned char *textureData;
   glBindTexture(GL_TEXTURE_2D, textureId);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, textureData);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
