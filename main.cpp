@@ -1,5 +1,4 @@
 #include "MainApplication.hpp"
-#include "ObjLoader.hpp"
 
 int main()
 {
