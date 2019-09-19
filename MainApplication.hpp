@@ -86,7 +86,7 @@ class MainApplication {
     // auto blueShader = new G_TextureShader(string("textures/uvtemplate.tga").c_str());
     // auto redShader = new G_TextureShader(string("textures/uvtemplate.tga").c_str());
     // auto box = new G_Box_Mesh(vec3(0,0,0), 2.0f, 0.5f, 2.0f);
-    auto box2 = new G_ObjMesh(string("objects/monkey.obj").c_str());
+    auto box2 = new G_ObjMesh(string("assets/objects/sphere.obj").c_str());
     // auto obj = new G_Object(blueShader, box);
     auto obj2 = new G_Object(blueShader, box2);
     // obj2->setPosition(vec3(-0.5,1,-0.5));

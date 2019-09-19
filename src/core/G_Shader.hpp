@@ -30,8 +30,8 @@ class G_TextureShader: public G_Shader {
 public:
   GLuint texture;
 	G_TextureShader(const char *texture_path)
-		: G_Shader(string("shaders/vertex.glsl").c_str(),
-               string("shaders/fragment.glsl").c_str())
+		: G_Shader(string("assets/shaders/vertex.glsl").c_str(),
+               string("assets/shaders/fragment.glsl").c_str())
 	{
     texture = loadTexture(texture_path);
 	}
@@ -56,8 +56,8 @@ class G_ColorShader : public G_Shader {
     public:
 	vec3 color;
 	G_ColorShader(vec3 col)
-		: G_Shader(string("shaders/vertex.glsl").c_str(),
-			   string("shaders/fragment.glsl").c_str()),
+		: G_Shader(string("assets/shaders/vertex.glsl").c_str(),
+			   string("assets/shaders/fragment.glsl").c_str()),
 		  color(col)
 	{
 	}

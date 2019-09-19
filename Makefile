@@ -1,24 +1,18 @@
-OBJ = main.o
-INC = -I "./"
-THREAD = -lpthread
-LIB = -lGLEW -lglfw -lGL
+BUILD_DIR = build
+BIN_DIR = $(BUILD_DIR)/bin
 
-raytracer: build run
+gpu-tracer: build-project run
 
-build: $(OBJ)
-	g++ $(OBJ) -o raytracer.out $(LIB)
-	rm -f $(OBJ)
-
-render:
-	./raytracer.out
-
-run: render
-
-debug:
-	g++ -g -o raytracer-debug.out main.cpp $(LIB)
-
-main.o:
-	g++ -c main.cpp $(INC)
+build-project:
+	@cd $(BUILD_DIR) && cmake --build .
 
 clean:
-	rm -f $(OBJ) raytracer
+	rm -rf build
+
+reinstall: clean install
+
+install:
+	mkdir build && cd build && conan install .. && cmake .. && cmake --build .
+
+run:
+	@cd $(BIN_DIR) && ./GEngine
